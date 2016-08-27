@@ -62,4 +62,14 @@ class CompleteMeTest < Minitest::Test
 
     assert starting_node.children.keys.include?("z")
   end
+
+  def test_suggest
+    trie = CompleteMe.new
+    ["dog", "pizza", "pizzeria", "pizzicato", "pizzle", "pize"].each do |word|
+      trie.insert(word)
+    end
+
+    assert_equal ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"],
+      trie.suggest("piz")
+  end
 end

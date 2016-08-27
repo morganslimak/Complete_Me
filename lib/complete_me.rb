@@ -36,6 +36,29 @@ class CompleteMe
     end
   end
 
+  def suggest(partial_word, node = nil, building_word = "")
+    if node.nil?
+      node = reach_starting_node(partial_word)
+      @suggestions = Array.new
+    end
+
+    node.children.each do |letter, next_node|
+      building_word += letter
+      node = next_node
+      if node.word
+        @suggestions.push(partial_word + building_word)
+      else
+        suggest(partial_word, node, building_word)
+      end
+      if node.children.empty?
+        building_word = partial_word.chars.last
+      else
+        
+      end
+    end
+    return @suggestions
+  end
+
   def reach_starting_node(partial_word, node = @root)
     letters = partial_word.chars
     letters.each_with_index do |letter, index|

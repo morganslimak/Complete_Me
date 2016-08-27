@@ -3,7 +3,7 @@ class Node
 
   def initialize
     @word = false
-    @children = {}
+    @children = Hash.new
   end
 
 end
