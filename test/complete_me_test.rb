@@ -38,4 +38,28 @@ class CompleteMeTest < Minitest::Test
     assert_equal 3, trie.count
   end
 
+  def test_populate_trie_from_small_file
+    trie = CompleteMe.new
+    dictionary = File.read("./lib/words.txt")
+    trie.populate(dictionary)
+
+    assert_equal 10, trie.count
+  end
+
+  def test_populate_trie_from_full_dictionary
+    skip
+    trie = CompleteMe.new
+    dictionary = File.read("./lib/usr/share/dict/words")
+    trie.populate(dictionary)
+
+    assert_equal 235886, trie.count
+  end
+
+  def test_navigating_to_correct_node
+    trie = CompleteMe.new
+    trie.insert("pizza")
+    starting_node = trie.reach_starting_node("piz")
+
+    assert starting_node.children.keys.include?("z")
+  end
 end

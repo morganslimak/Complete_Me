@@ -27,4 +27,21 @@ class CompleteMe
     @word_count
   end
 
+# dictionary = File.read("/usr/share/dict/words")
+
+  def populate(dictionary)
+    split_dictionary = dictionary.split
+    split_dictionary.each do |word|
+      insert(word)
+    end
+  end
+
+  def reach_starting_node(partial_word, node = @root)
+    letters = partial_word.chars
+    letters.each_with_index do |letter, index|
+      node = node.children[letter]
+    end
+    return node
+  end
+
 end
