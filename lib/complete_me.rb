@@ -5,7 +5,7 @@ class CompleteMe
   attr_accessor :root
 
   def initialize
-    @root = Node.new
+    @root = Node.new("")
     @word_count = 0
   end
 
@@ -13,7 +13,7 @@ class CompleteMe
     letters = word.chars
     letters.each_with_index do |letter, index|
       unless node.children.keys.include?(letter)
-        node.children[letter] = Node.new
+        node.children[letter] = Node.new(node.partial + letter)
       end
       node = node.children[letter]
       if index == word.length - 1
@@ -27,8 +27,6 @@ class CompleteMe
     @word_count
   end
 
-# dictionary = File.read("/usr/share/dict/words")
-
   def populate(dictionary)
     split_dictionary = dictionary.split
     split_dictionary.each do |word|
@@ -36,31 +34,20 @@ class CompleteMe
     end
   end
 
-  def suggest(partial_word, node = nil, building_word = "")
-    if node.nil?
-      node = reach_starting_node(partial_word)
+  def suggest(user_input, node = nil)
+    if node == nil
+      node = reach_starting_node(user_input)
       @suggestions = Array.new
     end
-
     node.children.each do |letter, next_node|
-      building_word += letter
-      node = next_node
-      if node.word
-        @suggestions.push(partial_word + building_word)
-      else
-        suggest(partial_word, node, building_word)
-      end
-      if node.children.empty?
-        building_word = partial_word.chars.last
-      else
-        
-      end
+      @suggestions.push(next_node.partial) if next_node.word
+      suggest(user_input, next_node) unless next_node.children.empty?
     end
     return @suggestions
   end
 
-  def reach_starting_node(partial_word, node = @root)
-    letters = partial_word.chars
+  def reach_starting_node(user_input, node = @root)
+    letters = user_input.chars
     letters.each_with_index do |letter, index|
       node = node.children[letter]
     end
