@@ -46,6 +46,7 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_populate_trie_from_full_dictionary
+    skip
     trie = CompleteMe.new
     dictionary = File.read("./lib/usr/share/dict/words")
     trie.populate(dictionary)
@@ -70,5 +71,23 @@ class CompleteMeTest < Minitest::Test
     expected = ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"]
 
     assert_equal expected, trie.suggest("piz")
+  end
+
+  # completion.suggest("piz")
+  # => ["pizza", "pizzeria", "pizzicato"]
+  #
+  # completion.select("piz", "pizzeria")
+  #
+  # completion.suggest("piz")
+  # => ["pizzeria", "pizza", "pizzicato"]
+  def test_select_chooses_highest_weighted_word
+    trie = CompleteMe.new
+    ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"].each do |word|
+      trie.insert(word)
+    end
+
+    trie.select("piz", "pizzle")
+
+    assert_equal "pizzle", trie.suggest("piz").first
   end
 end

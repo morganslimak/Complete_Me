@@ -1,5 +1,4 @@
 require_relative 'node'
-require 'pry'
 
 class CompleteMe
   attr_accessor :root
@@ -9,7 +8,17 @@ class CompleteMe
     @word_count = 0
   end
 
-  def insert(word, node=@root)
+  def insert(words)
+    if words.class == Array
+      words.each do |word|
+        insert_a_word(word)
+      end
+    else
+      insert_a_word(words)
+    end
+  end
+
+  def insert_a_word(word, node=@root)
     letters = word.chars
     letters.each_with_index do |letter, index|
       unless node.children.keys.include?(letter)
@@ -35,12 +44,21 @@ class CompleteMe
   end
 
   def suggest(user_input, node = nil, suggestions = [])
-    node = reach_starting_node(user_input) if node.nil?
+    if node.nil?
+      node = reach_starting_node(user_input)
+      suggestions.push(node) if node.word 
+    end
     node.children.each do |letter, next_node|
-      suggestions.push(next_node.partial) if next_node.word
+      suggestions.push(next_node) if next_node.word
       suggest(user_input, next_node, suggestions) unless next_node.children.empty?
     end
-    suggestions
+    sort_words(suggestions)
+  end
+
+  def sort_words(suggestions)
+    suggestions.sort! {|x, y| y.selects <=> x.selects}
+    words = suggestions.map {|node| node.partial}
+    words
   end
 
   def reach_starting_node(user_input, node = @root)
@@ -49,6 +67,11 @@ class CompleteMe
       node = node.children[letter]
     end
     node
+  end
+
+  def select(user_input, preferred_word)
+    node = reach_starting_node(preferred_word)
+    node.selects += 1
   end
 
 end
