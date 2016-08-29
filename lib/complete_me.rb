@@ -34,16 +34,13 @@ class CompleteMe
     end
   end
 
-  def suggest(user_input, node = nil)
-    if node == nil
-      node = reach_starting_node(user_input)
-      @suggestions = Array.new
-    end
+  def suggest(user_input, node = nil, suggestions = [])
+    node = reach_starting_node(user_input) if node.nil?
     node.children.each do |letter, next_node|
-      @suggestions.push(next_node.partial) if next_node.word
-      suggest(user_input, next_node) unless next_node.children.empty?
+      suggestions.push(next_node.partial) if next_node.word
+      suggest(user_input, next_node, suggestions) unless next_node.children.empty?
     end
-    return @suggestions
+    suggestions
   end
 
   def reach_starting_node(user_input, node = @root)
@@ -51,7 +48,7 @@ class CompleteMe
     letters.each_with_index do |letter, index|
       node = node.children[letter]
     end
-    return node
+    node
   end
 
 end

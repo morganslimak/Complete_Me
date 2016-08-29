@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require './test/test_helper'
 require './lib/complete_me'
 
 class CompleteMeTest < Minitest::Test
@@ -47,7 +46,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_populate_trie_from_full_dictionary
-    skip
     trie = CompleteMe.new
     dictionary = File.read("./lib/usr/share/dict/words")
     trie.populate(dictionary)
@@ -69,7 +67,8 @@ class CompleteMeTest < Minitest::Test
       trie.insert(word)
     end
 
-    assert_equal ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"],
-      trie.suggest("piz")
+    expected = ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"]
+
+    assert_equal expected, trie.suggest("piz")
   end
 end
