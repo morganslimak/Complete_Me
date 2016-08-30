@@ -37,7 +37,7 @@ class CompleteMe
     node.word = false
     @word_count -= 1
     until word.empty?
-      if node.children.empty?
+      if node.children.empty? && node.word == false
         saved_letter = word.chars.last
         word = word.chop
         node = reach_starting_node(word)

@@ -99,7 +99,7 @@ class CompleteMeTest < Minitest::Test
 
     trie.delete("pizza")
     expected = ["pizzeria", "pizzicato", "pizzle", "pize"]
-    require "pry"; binding.pry
+
     assert_equal expected, trie.suggest("piz")
   end
 end
