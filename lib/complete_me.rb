@@ -1,4 +1,4 @@
-require_relative 'node'
+require "./lib/node"
 
 class CompleteMe
   attr_accessor :root
