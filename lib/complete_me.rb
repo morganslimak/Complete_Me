@@ -32,6 +32,22 @@ class CompleteMe
     end
   end
 
+  def delete(word)
+    node = reach_starting_node(word)
+    node.word = false
+    until word.empty?
+      if node.children.empty?
+        saved_letter = word.chars.last
+        word = word.chop
+        node = reach_starting_node(word)
+        node.children.delete(saved_letter)
+      else
+        break
+      end
+    end
+  end
+
+
   def count
     @word_count
   end
@@ -46,7 +62,7 @@ class CompleteMe
   def suggest(user_input, node = nil, suggestions = [])
     if node.nil?
       node = reach_starting_node(user_input)
-      suggestions.push(node) if node.word 
+      suggestions.push(node) if node.word
     end
     node.children.each do |letter, next_node|
       suggestions.push(next_node) if next_node.word

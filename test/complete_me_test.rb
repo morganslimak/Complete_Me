@@ -90,4 +90,16 @@ class CompleteMeTest < Minitest::Test
 
     assert_equal "pizzle", trie.suggest("piz").first
   end
+
+  def test_delete_removes_word
+    trie = CompleteMe.new
+    ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"].each do |word|
+      trie.insert(word)
+    end
+
+    trie.delete("pizza")
+    expected = ["pizzeria", "pizzicato", "pizzle", "pize"]
+    require "pry"; binding.pry
+    assert_equal expected, trie.suggest("piz")
+  end
 end
