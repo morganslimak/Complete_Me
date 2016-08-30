@@ -35,6 +35,7 @@ class CompleteMe
   def delete(word)
     node = reach_starting_node(word)
     node.word = false
+    @word_count -= 1
     until word.empty?
       if node.children.empty?
         saved_letter = word.chars.last
