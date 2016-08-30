@@ -21,7 +21,7 @@ class CompleteMe
   def insert_a_word(word, node=@root)
     letters = word.chars
     letters.each_with_index do |letter, index|
-      unless node.children.keys.include?(letter)
+      unless node.children.include?(letter)
         node.children[letter] = Node.new(node.partial + letter)
       end
       node = node.children[letter]
@@ -48,7 +48,6 @@ class CompleteMe
     end
   end
 
-
   def count
     @word_count
   end
@@ -67,7 +66,9 @@ class CompleteMe
     end
     node.children.each do |letter, next_node|
       suggestions.push(next_node) if next_node.word
-      suggest(user_input, next_node, suggestions) unless next_node.children.empty?
+      unless next_node.children.empty?
+        suggest(user_input, next_node, suggestions)
+      end
     end
     sort_words(suggestions)
   end
@@ -90,5 +91,7 @@ class CompleteMe
     node = reach_starting_node(preferred_word)
     node.selects += 1
   end
+
+
 
 end
