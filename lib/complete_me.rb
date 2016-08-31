@@ -63,39 +63,29 @@ class CompleteMe
   def suggest(substring)
     node = reach_starting_node(substring)
     search_children(node)
-    results = @suggestions.map{|suffix| substring + suffix}
+    words = @suggestions.map{|suffix| substring + suffix}
     @suggestions = Array.new
-    sort_words(results)
+    sort_words(words)
   end
 
-  def sort_words(results)
-    times_selected = obtain_selects_number(results)
-    combined = results.zip(times_selected)
-    with_selects = Array.new
-    without_selects = Array.new
-    combined.each do |word|
-      if word.last > 0
-        with_selects << word
-      else
-        without_selects << word
-      end
-    end
-    output = with_selects.sort_by{|word| word.last}
-    output.reverse!
-    output += without_selects
-    output.map{|word| word.first}
+  def sort_words(words)
+    times_selected = obtain_selects_number(words)
+    combined = words.zip(times_selected)
+    combined = combined.group_by {|word| word.last}
+    combined = combined.sort.reverse.to_h.values.flatten
+    combined.reject! {|x| x.class == Fixnum}
   end
 
 
-  def reach_starting_node(user_input, node = @root)
-    letters = user_input.chars
+  def reach_starting_node(substring, node = @root)
+    letters = substring.chars
     letters.each do |letter|
       node = node.children[letter]
     end
     node
   end
 
-  def select(user_input, preferred_word)
+  def select(substring, preferred_word)
     node = reach_starting_node(preferred_word)
     node.selects += 1
   end
