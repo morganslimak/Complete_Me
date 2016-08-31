@@ -69,8 +69,7 @@ class CompleteMe
   end
 
   def sort_words(words)
-    times_selected = obtain_selects_number(words)
-    combined = words.zip(times_selected)
+    combined = words.zip(obtain_selects_number(words))
     combined = combined.group_by {|word| word.last}
     combined = combined.sort.reverse.to_h.values.flatten
     combined.reject! {|x| x.class == Fixnum}
