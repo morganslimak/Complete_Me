@@ -6,7 +6,7 @@ class CompleteMe
   def initialize
     @root = Node.new
     @word_count = 0
-    @word_results = Array.new
+    @suggestions = Array.new
   end
 
   def insert(words)
@@ -62,28 +62,40 @@ class CompleteMe
 
   def suggest(substring)
     node = reach_starting_node(substring)
-    search_children(substring, node)
-    results = @word_results.map{|suffix| substring + suffix}
-    @word_results = Array.new
-    results
+    search_children(node)
+    results = @suggestions.map{|suffix| substring + suffix}
+    @suggestions = Array.new
+    sort_words(results)
   end
 
-  def search_children(prefix, node, suffix = "")
-    @word_results << suffix if node.word?
+  def search_children(node, suffix = "")
+    @suggestions << suffix if node.word
     unless node.children.empty?
       node.children.each do |letter, node|
-        new_suffix = suffix
-        new_suffix += letter
-        search_children(prefix, node, new_suffix)
+        suffix_step = suffix
+        suffix_step += letter
+        search_children(node, suffix_step)
       end
     end
   end
 
-  def sort_words(suggestions)
-    suggestions.sort! {|x, y| y.selects <=> x.selects}
-    words = suggestions.map {|node| node.partial}
-    words
+  def sort_words(results)
+    times_selected = obtain_selects_number(results)
+    combined = results.zip(times_selected)
+    with_selects = Array.new
+    without_selects = Array.new
+    combined.each do |word|
+      if word.last > 0
+        with_selects << word
+      else
+        without_selects << word
+      end
+    end
+    output = with_selects.sort_by{|word| word.last}
+    output += without_selects
+    output.map{|word| word.first}
   end
+
 
   def reach_starting_node(user_input, node = @root)
     letters = user_input.chars
@@ -98,18 +110,12 @@ class CompleteMe
     node.selects += 1
   end
 
-
+  private
+  def obtain_selects_number(words)
+    times_selected = words.map do |word|
+      node = reach_starting_node(word)
+      node.selects
+    end
+  end
 
 end
-
-# if node.nil?
-#   node = reach_starting_node(user_input)
-#   suggestions.push(node) if node.word
-# end
-# node.children.each do |letter, next_node|
-#   suggestions.push(next_node) if next_node.word
-#   unless next_node.children.empty?
-#     suggest(user_input, next_node, suggestions)
-#   end
-# end
-# sort_words(suggestions)
