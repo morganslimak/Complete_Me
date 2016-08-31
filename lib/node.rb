@@ -1,8 +1,7 @@
 class Node
-  attr_accessor :children, :word, :partial, :selects
+  attr_accessor :children, :word, :selects
 
-  def initialize(partial=nil)
-    @partial = partial
+  def initialize
     @word = false
     @children = Hash.new
     @selects = 0

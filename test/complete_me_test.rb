@@ -1,4 +1,6 @@
-require './test/test_helper'
+# require './test/test_helper'
+require "minitest/autorun"
+require "minitest/pride"
 require './lib/complete_me'
 
 class CompleteMeTest < Minitest::Test
@@ -46,6 +48,7 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_populate_trie_from_full_dictionary
+    skip
     trie = CompleteMe.new
     dictionary = File.read("./usr/share/dict/words")
     trie.populate(dictionary)

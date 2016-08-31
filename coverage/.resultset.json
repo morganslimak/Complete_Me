@@ -96,6 +96,8 @@
         1,
         null,
         null,
+        null,
+        null,
         null
       ],
       "/Users/rtravitz/turing/1module/projects/complete_me/lib/node.rb": [
@@ -103,15 +105,27 @@
         1,
         null,
         1,
-        792906,
-        792906,
-        792906,
-        792906,
+        792907,
+        792907,
+        792907,
+        792907,
+        null,
+        null,
+        null
+      ],
+      "/Users/rtravitz/turing/1module/projects/complete_me/test/node_test.rb": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
         null,
         null,
         null
       ]
     },
-    "timestamp": 1472594274
+    "timestamp": 1472595495
   }
 }
