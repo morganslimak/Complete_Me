@@ -81,6 +81,7 @@ class CompleteMe
       end
     end
     output = with_selects.sort_by{|word| word.last}
+    output.reverse!
     output += without_selects
     output.map{|word| word.first}
   end
