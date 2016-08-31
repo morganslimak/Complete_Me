@@ -68,17 +68,6 @@ class CompleteMe
     sort_words(results)
   end
 
-  def search_children(node, suffix = "")
-    @suggestions << suffix if node.word
-    unless node.children.empty?
-      node.children.each do |letter, node|
-        suffix_step = suffix
-        suffix_step += letter
-        search_children(node, suffix_step)
-      end
-    end
-  end
-
   def sort_words(results)
     times_selected = obtain_selects_number(results)
     combined = results.zip(times_selected)
@@ -115,6 +104,17 @@ class CompleteMe
     times_selected = words.map do |word|
       node = reach_starting_node(word)
       node.selects
+    end
+  end
+
+  def search_children(node, suffix = "")
+    @suggestions << suffix if node.word
+    unless node.children.empty?
+      node.children.each do |letter, node|
+        suffix_step = suffix
+        suffix_step += letter
+        search_children(node, suffix_step)
+      end
     end
   end
 
