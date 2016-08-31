@@ -1,7 +1,7 @@
 require "./lib/node"
 
 class CompleteMe
-  attr_accessor :root
+  attr_reader :root
 
   def initialize
     @root = Node.new
