@@ -1,4 +1,4 @@
-require "./lib/node"
+require_relative "node"
 
 class CompleteMe
   attr_reader :root
@@ -110,10 +110,10 @@ class CompleteMe
   def search_children(node, suffix = "")
     @suggestions << suffix if node.word
     unless node.children.empty?
-      node.children.each do |letter, node|
+      node.children.each do |letter, child|
         suffix_step = suffix
         suffix_step += letter
-        search_children(node, suffix_step)
+        search_children(child, suffix_step)
       end
     end
   end
