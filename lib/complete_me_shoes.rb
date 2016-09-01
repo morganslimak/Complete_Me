@@ -6,8 +6,13 @@ trie.populate(dictionary)
 
 
 Shoes.app do
+
   background "#b3d9ff"
   border("#0059b3", strokewidth: 4)
+
+  stack :height => "25%" do
+    image "http://i.huffpost.com/gen/2424200/images/o-UNICORN-facebook.jpg", :width => 600, :height => 150
+  end
 
   flow do
 
