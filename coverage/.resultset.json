@@ -1,7 +1,7 @@
 {
   "Unit Tests": {
     "coverage": {
-      "/Users/morganslimak/Turing/Mod1/projects/complete_me/lib/complete_me.rb": [
+      "/Users/rtravitz/turing/1module/projects/complete_me/lib/complete_me.rb": [
         1,
         null,
         1,
@@ -114,19 +114,31 @@
         null,
         null
       ],
-      "/Users/morganslimak/Turing/Mod1/projects/complete_me/lib/node.rb": [
+      "/Users/rtravitz/turing/1module/projects/complete_me/lib/node.rb": [
         1,
         1,
         null,
         1,
-        129,
-        129,
-        129,
+        130,
+        130,
+        130,
+        null,
+        null,
+        null
+      ],
+      "/Users/rtravitz/turing/1module/projects/complete_me/test/node_test.rb": [
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
         null,
         null,
         null
       ]
     },
-    "timestamp": 1472684427
+    "timestamp": 1472696961
   }
 }
