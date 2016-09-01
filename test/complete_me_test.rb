@@ -85,7 +85,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal "pizzle", trie.suggest("piz").first
   end
 
-  def test_delete_removes_word
+  def test_delete_removes_word_and_unused_nodes
     trie = CompleteMe.new
     ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"].each do |word|
       trie.insert(word)
@@ -95,5 +95,12 @@ class CompleteMeTest < Minitest::Test
     expected = ["pizzeria", "pizzicato", "pizzle", "pize"]
 
     assert_equal expected, trie.suggest("piz")
+
+    trie.insert("dog")
+    trie.insert("doge")
+    trie.delete("doge")
+    expected = trie.reach_starting_node("dog").children
+
+    assert_equal Hash.new, expected
   end
 end
